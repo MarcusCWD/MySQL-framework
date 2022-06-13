@@ -28,11 +28,21 @@ app.use(
 );
 
 // =========== set up CSRF ========== //
-// enable CSRF
-app.use(csrf());
+// global middleware to ignore csrf for API
+const csrfInstance = csrf();
+app.use(function (req, res, next) {
+  // exclude /checkout/process_payment for CSRF
+  if (req.url.slice(0,5)=="/api/") {
+      return next()
+  }
+  csrfInstance(req, res, next)
+})
+
 // Share CSRF with hbs files
 app.use(function(req,res,next){
-  res.locals.csrfToken = req.csrfToken();
+  if (req.csrfToken) {
+    res.locals.csrfToken = req.csrfToken();
+}
   next();
 })
 app.use(function (err, req, res, next) {
@@ -48,9 +58,10 @@ app.use(function (err, req, res, next) {
 // =========== set up sessions ========== //
 app.use(session({
   store: new FileStore(),
-  secret: 'keyboard cat',
+  secret: process.env.SESSION_SECRET_KEY,
   resave: false,
   saveUninitialized: true
+
 }))
 
 // =========== set up flash messages ========== //
@@ -67,6 +78,10 @@ app.use(function (req, res, next) {
 // =========== import in routes ========== //
 const landingRoutes = require('./routes/landing.js');
 const usersRoutes = require('./routes/users.js');
+const api = {
+  users: require('./routes/api/users')
+}
+
 
 async function main() {
 
@@ -77,7 +92,8 @@ async function main() {
   })
 
   app.use('/', landingRoutes);
-  app.use('/users', usersRoutes)
+  app.use('/users', usersRoutes);
+  app.use('/api/users', express.json(), api.users);
 
 }
 

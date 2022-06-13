@@ -12,27 +12,36 @@ const getHashedPassword = (password) => {
 
 
 // import in the User model
-const { User } = require('../models');
+const { User, Role } = require('../models');
 
 const { createRegistrationForm, createLoginForm, bootstrapField } = require('../forms');
 
-router.get('/register', (req,res)=>{
+async function allRoles() {
+    return await Role.fetchAll().map((role) => {
+      return [role.get("id"), role.get("name")];
+    });
+}
+
+router.get('/register', async (req,res)=>{
+    let xRole =  await allRoles()
     // display the registration form
-    const registerForm = createRegistrationForm();
+    const registerForm = createRegistrationForm(xRole);
     res.render('users/register', {
         'form': registerForm.toHTML(bootstrapField)
     })
 })
 
-router.post('/register', (req, res) => {
-    const registerForm = createRegistrationForm();
+router.post('/register', async (req, res) => {
+    let xRole =  await allRoles()
+    const registerForm = createRegistrationForm(xRole);
     registerForm.handle(req, {
         success: async (form) => {
             const user = new User({
-                'username': form.data.username,
+                'name': form.data.name,
                 'password': getHashedPassword(form.data.password),
                 'email': form.data.email,
-                'mobile': form.data.mobile
+                'mobile': form.data.mobile,
+                'userrole': form.data.userrole,
             });
             await user.save();
             req.flash("success_messages", "User signed up successfully!");
@@ -77,11 +86,12 @@ router.post('/login', async (req, res) => {
                     // store the user details
                     req.session.user = {
                         id: user.get('id'),
-                        username: user.get('username'),
+                        name: user.get('name'),
                         email: user.get('email'),
-                        mobile: user.get('mobile')
+                        mobile: user.get('mobile'),
+                        userrole: user.get('userrole')
                     }
-                    req.flash("success_messages", "Welcome back, " + user.get('username'));
+                    req.flash("success_messages", "Welcome back, " + user.get('name'));
                     res.redirect('/users/profile');
                 } else {
                     req.flash("error_messages", "Sorry, the authentication details you provided does not work.")

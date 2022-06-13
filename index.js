@@ -27,6 +27,7 @@ app.use(
   })
 );
 
+// =========== set up CSRF ========== //
 // enable CSRF
 app.use(csrf());
 // Share CSRF with hbs files
@@ -59,6 +60,7 @@ app.use(flash())
 app.use(function (req, res, next) {
     res.locals.success_messages = req.flash("success_messages");
     res.locals.error_messages = req.flash("error_messages");
+    res.locals.warning_messages = req.flash("warning_messages");
     next();
 });
 
@@ -67,6 +69,12 @@ const landingRoutes = require('./routes/landing.js');
 const usersRoutes = require('./routes/users.js');
 
 async function main() {
+
+  // Share the user data with hbs files (serverside token)
+  app.use(function(req,res,next){
+    res.locals.user = req.session.user;
+    next();
+  })
 
   app.use('/', landingRoutes);
   app.use('/users', usersRoutes)

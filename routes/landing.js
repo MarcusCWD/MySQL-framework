@@ -1,7 +1,7 @@
 const express = require("express");
 
 // import in the CheckIfAuthenticated middleware
-const { checkIfAuthenticated } = require('../middlewares');
+const { checkIfAuthenticated, checkIfAdmin } = require('../middlewares');
 
  // #1 - Create a new express Router
 const router = express.Router(); 
@@ -11,7 +11,7 @@ router.get('/', (req,res)=>{
     res.render('landing/index.hbs')
 })
 
-router.get('/restricted', checkIfAuthenticated, (req,res)=>{
+router.get('/restricted', checkIfAuthenticated, checkIfAdmin, (req,res)=>{
     res.render('landing/restrictedpage.hbs')
 })
 

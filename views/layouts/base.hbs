@@ -25,9 +25,9 @@
                 </ul>
                 <div>
                     {{#if user}}
-                    Hi, {{user.username}}
+                    Hi, {{user.name}}
 
-                    <a href="/users/logout" class="ml-3 btn btn-primary btn-sm">Logout</a>
+                    <a href="/users/logout" class="ml-3 btn btn-warning btn-sm">Logout</a>
 
                     {{else}}
                     Hi, stranger
@@ -37,7 +37,8 @@
             </div>
       </nav>
     <div class="container">
-
+    <a href="#eng" data-reload>English</a>
+    <a href="#es" data-reload>Español</a>
     {{!-- add in the flash message at the top of the page --}}
     {{#if success_messages }}        
         {{#each success_messages}}
@@ -50,6 +51,14 @@
     {{#if error_messages}}
         {{#each error_messages}}
             <div class="alert alert-danger">
+                {{this}}
+            </div>
+        {{/each}}     
+    {{/if}}
+
+    {{#if warning_messages}}
+        {{#each warning_messages}}
+            <div class="alert alert-warning">
                 {{this}}
             </div>
         {{/each}}     

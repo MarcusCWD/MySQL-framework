@@ -8,4 +8,8 @@ const Role = bookshelf.model('Role',{
     tableName: 'roles'
 })
 
-module.exports = { User, Role };
+const BlacklistedToken = bookshelf.model('BlacklistedToken',{
+    tableName: 'blacklisted_tokens'
+})
+
+module.exports = { User, Role, BlacklistedToken };

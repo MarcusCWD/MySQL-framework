@@ -20,8 +20,8 @@ exports.up = function(db) {
     name: { type: 'string', length:100},
     email: {type: 'string', length:320},
     password: {type: 'string', length:80},
-    mobile: { type: 'int', length:20},
-    userrole: { type: 'int', length:20},
+    mobile: { type: 'int'},
+    userrole: { type: 'int'},
 })
 };
 

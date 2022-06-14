@@ -28,6 +28,16 @@ app.use(
   })
 );
 
+// =========== set up cors ========== //
+app.use(cors());
+
+// =========== set up sessions ========== //
+app.use(session({
+  secret: process.env.SESSION_SECRET_KEY,
+  resave: false,
+  saveUninitialized: true
+}))
+
 // =========== set up CSRF ========== //
 // global middleware to ignore csrf for API
 const csrfInstance = csrf();
@@ -54,16 +64,6 @@ app.use(function (err, req, res, next) {
       next()
   }
 });
-
-// =========== set up cors ========== //
-app.use(cors());
-
-// =========== set up sessions ========== //
-app.use(session({
-  secret: process.env.SESSION_SECRET_KEY,
-  resave: false,
-  saveUninitialized: true
-}))
 
 // =========== set up flash messages ========== //
 app.use(flash())

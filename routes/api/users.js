@@ -6,7 +6,6 @@ const {checkIfAuthenticatedJWT} = require('../../middlewares')
 
 const generateAccessToken = (user, secret, expiresIn) => {
     return jwt.sign({
-        'name': user.get('name'),
         'id': user.get('id'),
         'email': user.get('email'),
         'userrole':user.get('userrole')
@@ -32,7 +31,6 @@ router.post('/login', async (req, res) => {
 
     if (user && user.get('password') == getHashedPassword(req.body.password)) {
         const userObject = {
-            'name': user.get('name'),
             'email': user.get('email'),
             'id': user.get('id'),
             'userrole': user.get('userrole')

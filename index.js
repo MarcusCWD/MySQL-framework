@@ -60,11 +60,9 @@ app.use(cors());
 
 // =========== set up sessions ========== //
 app.use(session({
-  store: new FileStore(),
   secret: process.env.SESSION_SECRET_KEY,
   resave: false,
   saveUninitialized: true
-
 }))
 
 // =========== set up flash messages ========== //

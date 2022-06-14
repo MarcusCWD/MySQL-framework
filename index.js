@@ -85,7 +85,6 @@ const api = {
   users: require('./routes/api/users')
 }
 
-
 async function main() {
 
   // Share the user data with hbs files (serverside token)
@@ -102,6 +101,6 @@ async function main() {
 
 main();
 
-app.listen(3000, () => {
+app.listen((3000 || process.env.PORT), () => {
   console.log("Server has started");
 });

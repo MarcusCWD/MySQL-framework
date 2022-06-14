@@ -108,6 +108,26 @@ router.post('/refresh', async (req, res) => {
     })
 })
 
+router.post("/register", async (req, res) => {
+    try {
+        // Add user into table
+        const user = new User()
+          user.set("name", req.body.firstname)
+          user.set("email", req.body.email)
+          user.set("mobile", req.body.mobile)
+          user.set("password", getHashedPassword(req.body.password))
+          user.set("userrole", 'user')
+          await user.save()
+
+          // send back ok
+          res.send(user)
+        }
+     catch (e) {
+        console.log(e)
+        res.send("error")
+    }
+})
+
 
 
 

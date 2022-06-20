@@ -4,7 +4,14 @@ The Admin site is used for backend management. The backend site focusces on the 
 
 ## Context
 
-- The site management was built with [Express.js](https://expressjs.com/). along side the view engine [hbs](https://www.npmjs.com/package/hbs)
+The site management was built with [Express.js](https://expressjs.com/). along side the view engine [hbs](https://www.npmjs.com/package/hbs)
+
+Please the account details to login as either Management or User.
+
+Account Type | Email | Password
+------------ | ------------- | -------------
+Management | admintest@gmail.com | password
+User | usertest@gmail.com | password
 
 ## Database document design
 

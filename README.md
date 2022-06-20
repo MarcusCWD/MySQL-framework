@@ -14,7 +14,6 @@ The Admin site is used for backend management. The backend site focusces on the 
 
 Route Type | Route Name | Purpose
 ------------ | ------------- | -------------
-
 Get | /users/register | Client obtain infomation of register input fields
 Post | /users/register | Service recieves infomation on user register
 Get | /users/login | Client obtain infomation of login input fields
